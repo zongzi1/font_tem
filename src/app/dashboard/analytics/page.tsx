@@ -128,9 +128,9 @@ export default function AnalyticsPage() {
             </ResponsiveContainer>
           </div>
           <div className="mt-8 text-center">
-            <Button variant="ghost" className="text-blue-600 font-bold">
-              查看详细数据 >
-            </Button>
+            <button className="text-blue-600 font-bold hover:text-blue-700 transition-colors">
+              查看详细数据 &gt;
+            </button>
           </div>
         </CardContent>
       </Card>

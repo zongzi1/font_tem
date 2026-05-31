@@ -158,8 +158,7 @@ export default function TodayPage() {
                   <p className="text-xl font-bold">2/3</p>
                 </div>
                 <div className="flex flex-col items-center">
-                  <ProgressCircle percentage={72} size="md" />
-                  <span className="text-xs font-bold mt-1 text-blue-600">72%</span>
+                  <ProgressCircle percentage={72} size="md" strokeWidth={6} />
                 </div>
               </div>
               <div className="space-y-3">

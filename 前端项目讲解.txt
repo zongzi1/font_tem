@@ -1,0 +1,7 @@
+这里的 Sprint 就是：
+一个有明确目标和时间限制的行动周期
+------------------------
+问题：https://nextjs.org/docs/messages/module-not-found ⨯ ./src/app/dashboard/goals/page.tsx:8:0 Module not found: Can't resolve '@/components/ui/progress' 6 | import { Badge } from '@/components/ui/badge'; 7 | import { Plus, Target, Calendar, ChevronRight } from 'lucide-react'; > 8 | import { Progress } from '@/components/ui/progress'; 9 | 10 | const mockGoals = [ 11 | { https://nextjs.org/docs/messages/module-not-found错误提示是这样，什么原因吗
+答案：npx shadcn@latest add progress
+
+页面出现太长要拖动，请帮我修改在自适应每个设备窗体阔度与长度。且reflactin/目标任务/分析页面出现右上方用户标签和页面右上方标签重叠现象，且调节对应页面高度

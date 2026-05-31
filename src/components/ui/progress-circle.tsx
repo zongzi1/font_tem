@@ -7,17 +7,18 @@ interface ProgressCircleProps {
   strokeWidth?: number;
   showPercentage?: boolean;
   className?: string;
+  strokeColor?: string;
 }
 
 const sizeConfig = {
-  sm: { dimension: 40, fontSize: 'text-xs' },
-  md: { dimension: 60, fontSize: 'text-sm' },
-  lg: { dimension: 80, fontSize: 'text-base' },
+  sm: { dimension: 40, fontSize: 'text-[10px]' },
+  md: { dimension: 64, fontSize: 'text-xs' },
+  lg: { dimension: 100, fontSize: 'text-xl' },
 };
 
 export const ProgressCircle = React.forwardRef<HTMLDivElement, ProgressCircleProps>(
   (
-    { percentage, size = 'md', strokeWidth = 4, showPercentage = true, className },
+    { percentage, size = 'md', strokeWidth = 4, showPercentage = true, className, strokeColor = 'stroke-blue-600' },
     ref
   ) => {
     const config = sizeConfig[size];
@@ -25,20 +26,6 @@ export const ProgressCircle = React.forwardRef<HTMLDivElement, ProgressCirclePro
     const circumference = radius * 2 * Math.PI;
     const strokeDasharray = `${circumference} ${circumference}`;
     const strokeDashoffset = circumference - (percentage / 100) * circumference;
-
-    // Determine color based on percentage
-    let strokeColor = 'stroke-blue-600';
-    if (percentage >= 90) {
-      strokeColor = 'stroke-green-500';
-    } else if (percentage >= 70) {
-      strokeColor = 'stroke-blue-500';
-    } else if (percentage >= 50) {
-      strokeColor = 'stroke-yellow-500';
-    } else if (percentage >= 30) {
-      strokeColor = 'stroke-orange-500';
-    } else {
-      strokeColor = 'stroke-red-500';
-    }
 
     return (
       <div
@@ -58,7 +45,7 @@ export const ProgressCircle = React.forwardRef<HTMLDivElement, ProgressCirclePro
             stroke="currentColor"
             strokeWidth={strokeWidth}
             fill="transparent"
-            className="text-gray-200"
+            className="text-gray-100"
           />
           <circle
             cx={config.dimension / 2}
@@ -72,7 +59,7 @@ export const ProgressCircle = React.forwardRef<HTMLDivElement, ProgressCirclePro
             strokeLinecap="round"
             className={strokeColor}
             style={{
-              transition: 'stroke-dashoffset 0.5s ease-in-out',
+              transition: 'stroke-dashoffset 0.8s cubic-bezier(0.4, 0, 0.2, 1)',
             }}
           />
         </svg>
@@ -81,7 +68,7 @@ export const ProgressCircle = React.forwardRef<HTMLDivElement, ProgressCirclePro
             className={cn(
               'absolute inset-0 flex items-center justify-center',
               config.fontSize,
-              'font-medium'
+              'font-black text-gray-900'
             )}
           >
             {Math.round(percentage)}%

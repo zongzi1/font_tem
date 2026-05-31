@@ -45,12 +45,11 @@ export default function ReflectionPage() {
               <div className="flex flex-col md:flex-row items-center justify-between gap-8">
                 <div className="flex items-center space-x-6">
                   <div className="flex flex-col items-center">
-                    <ProgressCircle percentage={72} size="lg" />
-                    <span className="text-sm font-bold mt-2 text-blue-600">72%</span>
+                    <ProgressCircle percentage={72} size="lg" strokeWidth={10} />
                   </div>
                   <div>
-                    <p className="text-sm text-gray-500">今日完成度</p>
-                    <p className="text-xl font-bold text-gray-900">表现出色</p>
+                    <p className="text-sm text-gray-500 font-bold uppercase tracking-widest">今日完成度</p>
+                    <p className="text-2xl font-black text-gray-900">表现出色</p>
                   </div>
                 </div>
 

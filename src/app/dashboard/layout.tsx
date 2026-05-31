@@ -29,9 +29,9 @@ export default function DashboardLayout({
 
   return (
     <QueryClientProvider client={queryClient}>
-      <div className="flex h-screen bg-gray-100">
+      <div className="flex h-screen bg-white">
         <Sidebar />
-        <div className="flex-1 flex flex-col overflow-hidden">
+        <div className="flex-1 relative flex flex-col overflow-hidden">
           <Header />
           <main className="flex-1 overflow-y-auto p-6">
             {children}

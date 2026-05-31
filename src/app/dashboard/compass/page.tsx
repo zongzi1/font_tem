@@ -71,10 +71,7 @@ export default function CompassPage() {
                 </div>
                 <div className="flex flex-col items-center shrink-0">
                   <div className="relative flex items-center justify-center">
-                    <ProgressCircle percentage={63} size="lg" strokeWidth={10} showPercentage={false} />
-                    <div className="absolute inset-0 flex flex-col items-center justify-center">
-                      <span className="text-3xl font-black text-blue-600">63%</span>
-                    </div>
+                    <ProgressCircle percentage={63} size="lg" strokeWidth={10} showPercentage={true} />
                   </div>
                   <span className="text-xs font-bold text-gray-400 mt-4 tracking-widest uppercase">总体进度</span>
                 </div>

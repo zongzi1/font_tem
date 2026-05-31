@@ -63,10 +63,7 @@ export default function DashboardPage() {
               <p className="text-sm text-gray-400 mt-2">Backend Development</p>
             </div>
             <div className="relative flex items-center justify-center">
-              <ProgressCircle percentage={56} size="lg" strokeWidth={8} showPercentage={false} />
-              <div className="absolute inset-0 flex flex-col items-center justify-center">
-                <span className="text-2xl font-black text-blue-600">56%</span>
-              </div>
+              <ProgressCircle percentage={56} size="lg" strokeWidth={8} showPercentage={true} />
             </div>
             <div className="w-full space-y-3">
               <Button className="w-full bg-blue-600 hover:bg-blue-700 rounded-xl py-7 text-lg font-bold shadow-lg shadow-blue-100 transition-all active:scale-95">
