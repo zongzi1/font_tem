@@ -81,7 +81,7 @@ export default function DashboardPage() {
           <CardHeader className="py-4 border-b flex flex-row items-center justify-between space-y-0">
             <CardTitle className="text-base font-bold">今日任务</CardTitle>
             <Button variant="ghost" size="sm" className="text-blue-600 hover:bg-blue-50 font-bold p-0 h-auto px-2 py-1">
-              查看全部 >
+              查看全部 
             </Button>
           </CardHeader>
           <CardContent className="p-4 flex-1">

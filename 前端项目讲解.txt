@@ -1,3 +1,198 @@
+1。useMutation 用来调用后端
+内部包含：
+这里可以理解成：
+
+mutationFn
+=
+真正调用后端接口的方法
+onSuccess
+=
+成功后执行
+onError
+=
+失败后执行
+ 
+2.
+
+返回的是：
+
+UseMutationResult
+
+里面有很多东西：
+
+loginMutation.mutate
+
+loginMutation.mutateAsync
+
+loginMutation.isPending
+
+loginMutation.isSuccess
+
+loginMutation.error
+----------------------------------------------
+对，可以这么理解。
+
+mutateAsync() 本质上返回一个 Promise。
+
+例如：
+
+const result = await loginMutation.mutateAsync({
+  email,
+  password
+});
+
+底层相当于：
+
+return new Promise(...)
+成功时
+
+如果 mutationFn 成功：
+
+mutationFn: ({ email, password }) =>
+  authApi.login(email, password)
+
+返回：
+
+{
+  "user": {...},
+  "accessToken": "...",
+  "refreshToken": "..."
+}
+
+那么：
+
+const result = await loginMutation.mutateAsync(...);
+
+这里的：
+
+result
+
+就是：
+
+{
+  "user": {...},
+  "accessToken": "...",
+  "refreshToken": "..."
+}
+失败时
+
+例如后端返回：
+
+401 Unauthorized
+
+或者：
+
+500 Internal Server Error
+
+那么：
+
+await loginMutation.mutateAsync(...)
+
+会直接：
+
+throw error;
+
+等价于：
+
+Promise.reject(error)
+
+所以必须：
+
+try {
+
+  await loginMutation.mutateAsync({
+    email,
+    password
+  });
+
+} catch (error) {
+
+  console.log(error);
+
+}
+等价写法
+
+下面两段完全等价：
+
+mutateAsync
+try {
+
+  const data =
+    await loginMutation.mutateAsync(param);
+
+} catch (error) {
+
+}
+Promise
+loginMutation
+  .mutateAsync(param)
+  .then(data => {
+
+  })
+  .catch(error => {
+
+  });
+你的登录场景
+
+通常这样写：
+
+const onSubmit = async (
+  data: LoginForm
+) => {
+
+  try {
+
+    const result =
+      await loginMutation.mutateAsync(data);
+
+    console.log(result.user);
+
+    router.push('/dashboard');
+
+  } catch (error) {
+
+    toast.error('用户名或密码错误');
+
+  }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 这里的 Sprint 就是：
 一个有明确目标和时间限制的行动周期
 ------------------------

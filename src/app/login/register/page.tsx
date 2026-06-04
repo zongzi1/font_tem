@@ -1,0 +1,139 @@
+'use client';
+
+import React from 'react';
+import { useForm } from 'react-hook-form';
+import { useRouter } from 'next/navigation';
+import { useLogin } from '@/hooks/use-auth';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import toast from 'react-hot-toast';
+
+interface RegisterForm {
+  username: string;
+  email: string;
+  password: string;
+}
+
+export default function RegisterPage() {
+  const router = useRouter();
+  const loginMutation = useLogin();
+  const { register, handleSubmit, formState: { errors } } = useForm<RegisterForm>();
+
+  const onSubmit = async (data: RegisterForm) => {
+    try {
+      // 模拟注册逻辑
+      toast.success('注册成功！');
+      router.push('/login');
+    } catch (error) {
+      toast.error('注册失败，请稍后再试');
+    }
+  };
+
+  return (
+    // <div className="min-h-screen flex items-center justify-center bg-cover bg-center" style={{backgroundImage:"url('/assets/images/home.png')"}}>
+      <Card className="w-full max-w-[400px] border-0 shadow-2xl bg-white/95 backdrop-blur-sm rounded-3xl overflow-hidden">
+        <CardHeader className="space-y-4 pt-10 pb-6">
+          <div className="flex justify-center">
+            <div className="w-12 h-12 rounded-2xl bg-blue-600 flex items-center justify-center shadow-lg shadow-blue-200">
+              <svg 
+                viewBox="0 0 24 24" 
+                fill="none" 
+                stroke="currentColor" 
+                strokeWidth="3" 
+                strokeLinecap="round" 
+                strokeLinejoin="round" 
+                className="w-7 h-7 text-white"
+              >
+                <circle cx="12" cy="12" r="10" />
+                <path d="M16.2 7.8l-2.2 2.2" />
+                <path d="M12 12l-2.2 2.2" />
+                <path d="M7.8 16.2l-2.2 2.2" />
+              </svg>
+            </div>
+          </div>
+          <div className="space-y-1">
+            <CardTitle className="text-2xl font-black text-center text-gray-900 tracking-tight">
+              Growth OS
+            </CardTitle>
+            <CardDescription className="text-center font-bold text-gray-400 uppercase tracking-[0.2em] text-[10px]">
+              陪伴你的成长每一天
+            </CardDescription>
+          </div>
+        </CardHeader>
+        <CardContent className="px-8 pb-10">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+            <div className="space-y-1.5">
+              <label htmlFor="username" className="text-xs font-black text-gray-400 uppercase tracking-widest ml-1">
+                用户名
+              </label>
+              <Input
+                id="username"
+                type="text"
+                placeholder="你的昵称"
+                className="h-11 bg-gray-50 border-gray-100 focus:border-blue-500 focus:ring-blue-500 rounded-xl font-medium px-4 transition-all text-sm"
+                {...register('username', { required: '请输入用户名' })}
+              />
+              {errors.username && (
+                <p className="text-[10px] text-red-500 font-bold ml-1">{errors.username.message}</p>
+              )}
+            </div>
+
+            <div className="space-y-1.5">
+              <label htmlFor="email" className="text-xs font-black text-gray-400 uppercase tracking-widest ml-1">
+                账号
+              </label>
+              <Input
+                id="email"
+                type="email"
+                placeholder="邮箱 / 手机号"
+                className="h-11 bg-gray-50 border-gray-100 focus:border-blue-500 focus:ring-blue-500 rounded-xl font-medium px-4 transition-all text-sm"
+                {...register('email', { required: '请输入账号' })}
+              />
+              {errors.email && (
+                <p className="text-[10px] text-red-500 font-bold ml-1">{errors.email.message}</p>
+              )}
+            </div>
+
+            <div className="space-y-1.5">
+              <label htmlFor="password" className="text-xs font-black text-gray-400 uppercase tracking-widest ml-1">
+                密码
+              </label>
+              <Input
+                id="password"
+                type="password"
+                placeholder="••••••••"
+                className="h-11 bg-gray-50 border-gray-100 focus:border-blue-500 focus:ring-blue-500 rounded-xl font-medium px-4 transition-all text-sm"
+                {...register('password', { required: '请输入密码' })}
+              />
+              {errors.password && (
+                <p className="text-[10px] text-red-500 font-bold ml-1">{errors.password.message}</p>
+              )}
+            </div>
+
+            <div className="pt-3">
+              <Button
+                type="submit"
+                className="w-full h-13 bg-blue-600 hover:bg-blue-700 text-white font-black rounded-2xl shadow-xl shadow-blue-100 transition-all active:scale-[0.98] text-base"
+                disabled={loginMutation.isPending}
+              >
+                {loginMutation.isPending ? '正在处理...' : '立即注册'}
+              </Button>
+            </div>
+
+            <div className="flex items-center justify-center space-x-2 pt-1">
+              <span className="text-[10px] font-bold text-gray-400">已有账号?</span>
+              <button 
+                type="button" 
+                onClick={() => router.push('/login')}
+                className="text-[10px] font-black text-blue-600 hover:text-blue-700 uppercase tracking-wider"
+              >
+                返回登录
+              </button>
+            </div>
+          </form>
+        </CardContent>
+      </Card>
+    // </div>
+  );
+}

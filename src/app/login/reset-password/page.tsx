@@ -3,33 +3,34 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
-import { useLogin } from '@/hooks/use-auth';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import toast from 'react-hot-toast';
 
-interface LoginForm {
-  account: string;
+interface ResetPasswordForm {
   password: string;
+  confirmPassword: string;
 }
 
-export default function LoginPage() {
+export default function ResetPasswordPage() {
   const router = useRouter();
-  const loginMutation = useLogin();
-  const { register, handleSubmit, formState: { errors } } = useForm<LoginForm>();
+  const { register, handleSubmit, watch, formState: { errors } } = useForm<ResetPasswordForm>();
 
-  const onSubmit = async (data: LoginForm) => {
+  const password = watch('password');
+
+  const onSubmit = async (data: ResetPasswordForm) => {
     try {
-      await loginMutation.mutateAsync(data);
-      toast.success('Login successful!');
-      router.push('/dashboard');
+      // 模拟重置逻辑
+      toast.success('密码重置成功');
+      router.push('/login');
     } catch (error) {
-      toast.error('Invalid account or password'); 
+      toast.error('重置失败，请稍后再试');
     }
   };
 
   return (
+    <div className="min-h-screen flex items-center justify-center bg-cover bg-center" style={{backgroundImage:"url('/assets/images/home.png')"}}>
       <Card className="w-full max-w-[400px] border-0 shadow-2xl bg-white/95 backdrop-blur-sm rounded-3xl overflow-hidden">
         <CardHeader className="space-y-4 pt-10 pb-6">
           <div className="flex justify-center">
@@ -43,58 +44,57 @@ export default function LoginPage() {
                 strokeLinejoin="round" 
                 className="w-7 h-7 text-white"
               >
-                <circle cx="12" cy="12" r="10" />
-                <path d="M16.2 7.8l-2.2 2.2" />
-                <path d="M12 12l-2.2 2.2" />
-                <path d="M7.8 16.2l-2.2 2.2" />
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                <path d="M7 11V7a5 5 0 0 1 10 0v4" />
               </svg>
             </div>
           </div>
           <div className="space-y-1">
             <CardTitle className="text-2xl font-black text-center text-gray-900 tracking-tight">
-              Growth OS
+              设置新密码
             </CardTitle>
             <CardDescription className="text-center font-bold text-gray-400 uppercase tracking-[0.2em] text-[10px]">
-              陪伴你的成长每一天
+              请为您的账号设置一个新的安全密码
             </CardDescription>
           </div>
         </CardHeader>
         <CardContent className="px-8 pb-10">
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             <div className="space-y-2">
-              <label htmlFor="account" className="text-xs font-black text-gray-400 uppercase tracking-widest ml-1">
-                账号
+              <label htmlFor="password" className="text-xs font-black text-gray-400 uppercase tracking-widest ml-1">
+                新密码
               </label>
-              <Input
-                id="account"
-                type="text"
-                placeholder="邮箱 / 手机号"
-                className="h-12 bg-gray-50 border-gray-100 focus:border-blue-500 focus:ring-blue-500 rounded-xl font-medium px-4 transition-all"
-                {...register('account', { required: '请输入账号' })}
-              />
-              {errors.account && (
-                <p className="text-[10px] text-red-500 font-bold ml-1">{errors.account.message}</p>             
-              )}
-            </div>
-
-            <div className="space-y-2">
-              <div className="flex items-center justify-between ml-1">
-                <label htmlFor="password" className="text-xs font-black text-gray-400 uppercase tracking-widest">
-                  密码
-                </label>
-                <button type="button"  onClick={()=>{router.push('/login/forget')}} className="text-[10px] font-black text-blue-600 hover:text-blue-700 uppercase tracking-wider">
-                  忘记密码?
-                </button>
-              </div>
               <Input
                 id="password"
                 type="password"
                 placeholder="••••••••"
                 className="h-12 bg-gray-50 border-gray-100 focus:border-blue-500 focus:ring-blue-500 rounded-xl font-medium px-4 transition-all"
-                {...register('password', { required: '请输入密码' })}
+                {...register('password', { 
+                  required: '请输入新密码',
+                  minLength: { value: 8, message: '密码长度至少 8 位' }
+                })}
               />
               {errors.password && (
                 <p className="text-[10px] text-red-500 font-bold ml-1">{errors.password.message}</p>
+              )}
+            </div>
+
+            <div className="space-y-2">
+              <label htmlFor="confirmPassword" className="text-xs font-black text-gray-400 uppercase tracking-widest ml-1">
+                确认新密码
+              </label>
+              <Input
+                id="confirmPassword"
+                type="password"
+                placeholder="••••••••"
+                className="h-12 bg-gray-50 border-gray-100 focus:border-blue-500 focus:ring-blue-500 rounded-xl font-medium px-4 transition-all"
+                {...register('confirmPassword', { 
+                  required: '请再次输入密码',
+                  validate: value => value === password || '两次输入的密码不一致'
+                })}
+              />
+              {errors.confirmPassword && (
+                <p className="text-[10px] text-red-500 font-bold ml-1">{errors.confirmPassword.message}</p>
               )}
             </div>
 
@@ -102,20 +102,23 @@ export default function LoginPage() {
               <Button
                 type="submit"
                 className="w-full h-14 bg-blue-600 hover:bg-blue-700 text-white font-black rounded-2xl shadow-xl shadow-blue-100 transition-all active:scale-[0.98] text-base"
-                disabled={loginMutation.isPending}
               >
-                {loginMutation.isPending ? '正在登录...' : '立即登录'}
+                重置密码
               </Button>
             </div>
 
             <div className="flex items-center justify-center space-x-2 pt-2">
-              <span className="text-[10px] font-bold text-gray-400">还没有账号?</span>
-              <button type="button" className="text-[10px] font-black text-blue-600 hover:text-blue-700 uppercase tracking-wider" onClick={()=>{router.push('/login/register')}}>
-                立即注册
+              <button 
+                type="button" 
+                onClick={() => router.push('/login')}
+                className="text-[10px] font-black text-gray-400 hover:text-gray-600 uppercase tracking-wider"
+              >
+                取消重置
               </button>
             </div>
           </form>
         </CardContent>
       </Card>
+    </div>
   );
 }
